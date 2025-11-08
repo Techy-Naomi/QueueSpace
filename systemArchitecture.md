@@ -145,7 +145,7 @@ Queue logic is simple: incrementing ticket numbers with safe DB transactions.
 USSD/SMS are standard integrations with clear SDKs/webhooks.
 All channels share one backend; no duplicate logic.
 
-## Architecture Diagram
+# Architecture Diagram
 graph LR
   subgraph Clients
     A1[Mobile App<br/>(React Native/Flutter)]
