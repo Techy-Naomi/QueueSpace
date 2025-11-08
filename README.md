@@ -45,5 +45,4 @@ QueueSpace brings structure to an unstructured system. It saves time, reduces cr
 - Multi-branch or multi-location queue management  
 - Priority queues for elderly, pregnant women and emergencies  
 ## In Summary
-QueueSpace takes a familiar real-life behavior “help me hold my space in line” and turns it into a working digital solution.  
-It’s built to save time, reduce stress, and bring order to places where queues still rely on manual methods.
+QueueSpace takes a familiar real-life behavior “help me hold my space in line” and turns it into a working digital solution. It’s built to save time, reduce stress, and bring order to places where queues still rely on manual methods.
