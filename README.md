@@ -4,7 +4,9 @@ A simple digital way to hold your spot in line without physically waiting for ho
 QueueSpace is a digital queue and soft reservation system that lets people join a line remotely using a mobile app or USSD code.  Instead of physically standing in long queues or dropping slippers, bags, or writing names on paper to keep space, users can reserve a spot from their phone, see their position, see how many people are ahead of them, and receive a notification when it’s almost their turn.
 ## Why I Chose This Problem
 Growing up in Nigeria, queues are part of everyday life banks, hospitals, fuel stations, embassies, CBT centres, even schools.  People wait for hours, argue about who came first, and sometimes leave their belongings like slippers, books or bags to hold position.
+
 I’ve experienced it personally, tired legs, wasted time, and unnecessary stress. One day I asked myself:
+
 **“What if this informal queue system people already use could become a real digital product?”**
 That question became **QueueSpace**.
 ## Why It Matters
@@ -13,6 +15,7 @@ This solution is important because:
 - Queues cause stress and arguments when order is not clear.
 - Organizations struggle to control crowds and serve people fairly.
 - Not everyone has smartphones or internet,  so USSD support makes it inclusive.
+  
 QueueSpace brings structure to an unstructured system. It saves time, reduces crowd pressure, and makes both users and service providers more productive.
 ## Who It Is For
 - Everyday people who wait in long lines.  
