@@ -1,8 +1,8 @@
-## systemArchitecture.md — QueueSpace
+# systemArchitecture.md — QueueSpace
 
 A practical, lightweight architecture to let people join queues from their phones (App + USSD) and help staff manage the line smoothly.
 
-## (1) Architecture at a glance
+# (1) Architecture at a glance
 [ Mobile App ]            [ USSD Menu ]             [ Staff Web ]
      |                         |                         |
      |  HTTPS / JSON           |  Telco → Webhook       |  HTTPS / JSON
@@ -19,7 +19,7 @@ A practical, lightweight architecture to let people join queues from their phone
 
 Why this is feasible: one API serves three clients (App, USSD, Staff web). USSD calls arrive as telco webhooks to our API. We keep the core logic in the backend so all channels behave the same.
 
-## (2) Frontend clients
+# (2) Frontend clients
 **Mobile App (React Native or Flutter)**
 Join queue, see live position, receive push alerts.
 Simple screens: Select Location → Join Queue → Queue Status.
@@ -36,7 +36,7 @@ Secure login for staff.
 Buttons: Call Next, Skip, Pause, Close Queue.
 Shows live list of tickets and who is “Up Next”.
 
-## (3) Backend (API) — services
+# (3) Backend (API) — services
 Auth & Users: email/phone OTP now; OAuth later.
 Organization/Branch: locations where queues run.
 Queue/Ticket Service: create ticket, compute live position, assign next.
@@ -45,7 +45,7 @@ USSD Controller: receives telco webhooks, maps sessions to users.
 Audit Logs: record staff actions (called/skip/close).
 Tech suggestion: Node.js (Express/Fastify) or Django/FastAPI. Either fits MVP in 3–4 sprints.
 
-## (4) Data model (MVP)
+# (4) Data model (MVP)
 | Table           | Key fields                                                                                  | Notes                              |
 | --------------- | ------------------------------------------------------------------------------------------- | ---------------------------------- |
 | `users`         | id, name, phone, email(optional), role(user/staff)                                          | Phone is primary for USSD.         |
@@ -58,7 +58,7 @@ Tech suggestion: Node.js (Express/Fastify) or Django/FastAPI. Either fits MVP in
 | `audit_logs`    | id, actor_id, action, entity, entity_id, created_at                                         | Who did what, when.                |
 Minimal indexes: tickets(queue_id, status, number), users(phone).
 
-## (5) Key user flows
+# (5) Key user flows
 **(5.1) Join Queue (App or USSD)**
 User selects Branch and taps Join Queue (or dials USSD and chooses options).
 API checks: queue is open, user not already queued.
@@ -80,7 +80,7 @@ Pause stops new joins; Close ends the day’s queue and prevents new tickets.
 Triggered when a ticket moves within a threshold (configurable).
 Channel: SMS for USSD users; Push for app users.
 
-## (6) Minimal API contract (illustrative)
+# (6) Minimal API contract (illustrative)
 POST /auth/otp/request           { phone }
 POST /auth/otp/verify            { phone, code }
 
@@ -96,41 +96,41 @@ POST /staff/queues/:id/close
 USSD webhooks (from telco) hit:
 POST /ussd/inbound  (body carries session_id, phone, user selection)
 
-## (7) Notifications
+# (7) Notifications
 Provider: SMS (e.g., Twilio / Africa’s Talking) + push (Firebase/APNs).
 Strategy: send join confirmation and “you’re close” alerts.
 Retry: 3 attempts with back-off; log to notifications.
 
-## (8) Security & privacy (MVP)
+# (8) Security & privacy (MVP)
 Phone verification (OTP).
 Role-based access: user vs staff.
 Limit staff actions to their branch.
 Store only what we need (no sensitive PII beyond contact details).
 Basic rate-limit on USSD/web endpoints.
 
-## (9) Observability
+# (9) Observability
 Logs for every staff action (audit).
 Error logging with request IDs.
 Basic metrics: tickets/day per branch, average wait time, no-show rate.
 
-## (10) Scaling path
+# (10) Scaling path
 Single DB is fine for MVP.
 Later: queue operations wrapped in transactions to avoid race conditions.
 Scale read traffic with caching (e.g., Redis for “people ahead”).
 Shard by branch/org if needed in future.
 
-## (11) Non-functional targets (MVP)
+# (11) Non-functional targets (MVP)
 Availability: 99.5% (working hours).
 Latency: < 400ms for ticket status API.
 SMS delivery: attempt within 5s of trigger.
 Data retention: tickets & logs kept 180 days (configurable).
 
-## (12) Risks & mitigations
+# (12) Risks & mitigations
 USSD dependency (telco downtime) → always send SMS confirmation with ticket; allow re-entry by phone number.
 Skipped/No-show abuse → cap skips per ticket; auto-expire after X minutes.
 Multiple joins → one active ticket per user per branch.
 
-## (13) MVP vs Later
+# (13) MVP vs Later
 **MVP**
 App + USSD join, live position, SMS/push, simple staff panel.
 
@@ -139,7 +139,7 @@ Payments before service, multi-queue per branch (departments),
 Public display screens (token TV), analytics dashboards,
 Priority queues (elderly/pregnant/emergencies).
 
-## (14) Why this approach is technically feasible
+# (14) Why this approach is technically feasible
 Well-known stacks (Node/Django + Postgres/MySQL) with large ecosystem support.
 Queue logic is simple: incrementing ticket numbers with safe DB transactions.
 USSD/SMS are standard integrations with clear SDKs/webhooks.
@@ -179,12 +179,12 @@ graph LR
 
 
 
-## (15) Dev notes / setup (quick)
+# (15) Dev notes / setup (quick)
 Env vars: DB_URL, SMS_API_KEY, JWT_SECRET, USSD_WEBHOOK_SECRET.
 Seed data: organizations, branches, one open queue for testing.
 Local: run DB in Docker, start API, hit endpoints with Postman.
 
-## (16) Open questions (for mentors/devs)
+# (16) Open questions (for mentors/devs)
 Ticket expiry window (e.g., 3–5 minutes after “called”)?
 How many “skips” before marking no_show?
 USSD short code length/cost in Nigeria (shared vs dedicated)?
