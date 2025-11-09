@@ -1,4 +1,4 @@
-# systemArchitecture.md — QueueSpace
+# systemArchitecture.md — QueueSpace.
 
 A practical, lightweight architecture to let people join queues from their phones (App + USSD) and help staff manage the line smoothly.
 
